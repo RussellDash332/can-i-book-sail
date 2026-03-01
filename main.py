@@ -63,12 +63,12 @@ def check_once(session: requests.Session):
 
     if displayed_month_num == next_month:
         send_telegram(
-            f"DBS Sailing switched to {displayed_month_name}.",
+            f"🔥🔥🔥 DBS Sailing switched to {displayed_month_name}!!! GO BOOK 🔥🔥🔥",
             session
         )
     else:
         send_telegram(
-            f"DBS Sailing is still at {displayed_month_name}.",
+            f"DBS Sailing is still at {displayed_month_name}",
             session
         )
 
@@ -86,7 +86,7 @@ def run_cron_mode(session: requests.Session):
     # Always run 10 checks regardless of current time
     for _ in range(10):
         check_once(session)
-        time.sleep(60)
+        time.sleep(30)
 
 
 def main():
