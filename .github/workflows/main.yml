@@ -1,0 +1,29 @@
+name: Ping
+
+on:
+  schedule:
+    # 23:20 Singapore time (UTC+8) = 15:20 UTC
+    - cron: "20 15 * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    env:
+      TOKEN: ${{ secrets.TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install --no-cache-dir requests
+
+      - name: Run checker
+        run: python main.py
