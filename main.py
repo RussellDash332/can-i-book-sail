@@ -34,6 +34,7 @@ def get_displayed_month(html: str):
 
 
 def send_telegram(text: str, session: requests.Session):
+    print(f'send_telegram({text}, session)')
     session.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
         data={"chat_id": CHAT_ID, "text": text},
@@ -42,6 +43,7 @@ def send_telegram(text: str, session: requests.Session):
 
 
 def check_once(session: requests.Session):
+    print('check_once(session)')
     now = datetime.now(SGT)
     current_month = now.month
     next_month = 1 if current_month == 12 else current_month + 1
@@ -64,6 +66,7 @@ def check_once(session: requests.Session):
 
 
 def run_cron_mode(session: requests.Session):
+    print('run_cron_mode(session)')
     now = datetime.now(SGT)
 
     # Target time today 23:55
@@ -80,6 +83,7 @@ def run_cron_mode(session: requests.Session):
 
 
 def main():
+    print('main()')
     with requests.Session() as session:
         session.headers.update({"User-Agent": "Mozilla/5.0"})
 
