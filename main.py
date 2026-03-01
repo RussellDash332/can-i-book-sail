@@ -35,11 +35,12 @@ def get_displayed_month(html: str):
 
 def send_telegram(text: str, session: requests.Session):
     print(f'send_telegram({text}, session)')
-    session.post(
+    r = session.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
         data={"chat_id": CHAT_ID, "text": text},
         timeout=10,
-    ).raise_for_status()
+    )
+    print('Posted:', r.status_code)
 
 
 def check_once(session: requests.Session):
@@ -49,7 +50,8 @@ def check_once(session: requests.Session):
     next_month = 1 if current_month == 12 else current_month + 1
 
     r = session.get(URL, timeout=10)
-    r.raise_for_status()
+    print('Get sail URL:', s:=r.status_code)
+    assert s == 200
 
     result = get_displayed_month(r.text)
     if result is None:
