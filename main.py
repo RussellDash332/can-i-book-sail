@@ -54,6 +54,7 @@ def check_once(session: requests.Session):
     assert s == 200
 
     result = get_displayed_month(r.text)
+    print('Displayed month:', result)
     if result is None:
         send_telegram("DBS Sailing: Could not detect registration month.", session)
         return
@@ -65,7 +66,11 @@ def check_once(session: requests.Session):
             f"DBS Sailing switched to {displayed_month_name}.",
             session
         )
-
+    else:
+        send_telegram(
+            f"DBS Sailing is still at {displayed_month_name}.",
+            session
+        )
 
 def run_cron_mode(session: requests.Session):
     print('run_cron_mode(session)')
