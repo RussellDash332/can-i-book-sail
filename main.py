@@ -10,8 +10,8 @@ SGT = ZoneInfo("Asia/Singapore")
 
 TOKEN = os.environ["TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
-IS_CRON = os.environ.get("GITHUB_EVENT_NAME") == "schedule"
-print(os.environ.get("GITHUB_EVENT_NAME"))
+IS_CRON = os.environ.get("GITHUB_EVENT_NAME") != "workflow_dispatch"
+print([os.environ.get("GITHUB_EVENT_NAME"), __name__])
 
 MONTH_PATTERN = re.compile(
     r"(January|February|March|April|May|June|July|August|September|October|November|December)\s+Registration",
@@ -88,6 +88,4 @@ def main():
         else:
             check_once(session)
 
-
-if __name__ == "__main__":
-    main()
+main()
