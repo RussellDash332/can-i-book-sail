@@ -72,21 +72,21 @@ def check_once(session: requests.Session):
             session
         )
 
-def run_cron_mode(session: requests.Session):
-    print('run_cron_mode(session)')
+def run_cron_mode(session):
     now = datetime.now(SGT)
 
-    # Target time today 23:55
-    target = now.replace(hour=23, minute=55, second=0, microsecond=0)
+    today_2355 = now.replace(hour=23, minute=55, second=0, microsecond=0)
 
-    # If before 23:55, wait
-    if now < target:
-        time.sleep((target - now).total_seconds())
+    # Case 1: Before 23:55 today → sleep until it
+    if now.hour < 23 or (now.hour == 23 and now.minute < 55):
+        time.sleep((today_2355 - now).total_seconds())
 
-    # Always run 10 checks regardless of current time
+    # Case 2: Already after 23:55 (including after midnight)
+    # → run immediately
+
     for _ in range(10):
         check_once(session)
-        time.sleep(30)
+        time.sleep(60)
 
 
 def main():
