@@ -6,6 +6,10 @@ on:
     - cron: "20 15 * * *"
   workflow_dispatch:
 
+  push:
+    branches:
+      - "**"   # run on any branch push
+
 jobs:
   check:
     runs-on: ubuntu-latest
