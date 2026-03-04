@@ -10,7 +10,7 @@ SGT = ZoneInfo("Asia/Singapore")
 
 TOKEN = os.environ["TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
-IS_CRON = os.environ.get("GITHUB_EVENT_NAME") != "workflow_dispatch"
+IS_CRON = os.environ.get("GITHUB_EVENT_NAME") == "schedule"
 print([os.environ.get("GITHUB_EVENT_NAME"), __name__])
 
 MONTH_PATTERN = re.compile(
