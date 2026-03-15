@@ -12,16 +12,15 @@ SGT = ZoneInfo("Asia/Singapore")
 TOKEN = os.environ["TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
-# Precise patterns for Kattis profile sidebar: <span class="important">Rank: 1,234</span>
-RANK_PATTERN = re.compile(r'Rank:\s*([\d,]+)', re.IGNORECASE)
-SCORE_PATTERN = re.compile(r'Score:\s*([\d.]+)', re.IGNORECASE)
+RANK_PATTERN = re.compile(r'Rank</span><span class="important_text">([\d,]+)</span>')
+SCORE_PATTERN = re.compile(r'Score</span><span class="important_text">([\d.]+)</span>')
 
 def get_stats(html: str):
     rank_m = RANK_PATTERN.search(html)
     score_m = SCORE_PATTERN.search(html)
     rank = rank_m.group(1) if rank_m else "Unknown"
-    score = score_m.group(1) if score_m else "Unknown"
-    return rank, score
+    point = score_m.group(1) if score_m else "Unknown"
+    return rank, point
 
 def send_telegram(text: str, session: requests.Session):
     session.post(
@@ -34,7 +33,7 @@ with requests.Session() as session:
     session.headers.update({"User-Agent": "Mozilla/5.0"})
     start_time = time.time()
     
-    for _ in range(6):
+    while time.time() - start_time < 21000:
         try:
             r = session.get(URL, timeout=10)
             if r.status_code == 200:
@@ -44,8 +43,8 @@ with requests.Session() as session:
                 print(msg)
                 send_telegram(msg, session)
             else:
-                print(f"Error {r.status_code} at {datetime.now(SGT)}")
+                print(f"Error {r.status_code}")
         except Exception as e:
-            print(f"Loop error: {e}")
+            print(f"Error: {e}")
             
         time.sleep(600)
