@@ -33,7 +33,7 @@ with requests.Session() as session:
     session.headers.update({"User-Agent": "Mozilla/5.0"})
     start_time = time.time()
     
-    while time.time() - start_time < 21000:
+    for _ in range(6):
         try:
             r = session.get(URL, timeout=10)
             if r.status_code == 200:
