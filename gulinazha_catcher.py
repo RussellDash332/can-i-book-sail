@@ -12,15 +12,18 @@ SGT = ZoneInfo("Asia/Singapore")
 TOKEN = os.environ["TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
-RANK_PATTERN = re.compile(r'Rank\D+([\d,]+)', re.IGNORECASE)
-POINT_PATTERN = re.compile(r'Score\D+([\d.]+)', re.IGNORECASE)
+# Precise patterns based on Kattis user profile structure
+# Rank: <span class="important">Rank: 1234</span>
+# Score: <span class="important">Score: 1234.5</span>
+RANK_PATTERN = re.compile(r'Rank:\s*([\d,]+)', re.IGNORECASE)
+SCORE_PATTERN = re.compile(r'Score:\s*([\d.]+)', re.IGNORECASE)
 
 def get_stats(html: str):
     rank_m = RANK_PATTERN.search(html)
-    point_m = POINT_PATTERN.search(html)
+    score_m = SCORE_PATTERN.search(html)
     rank = rank_m.group(1) if rank_m else "Unknown"
-    point = point_m.group(1) if point_m else "Unknown"
-    return rank, point
+    score = score_m.group(1) if score_m else "Unknown"
+    return rank, score
 
 def send_telegram(text: str, session: requests.Session):
     session.post(
@@ -32,14 +35,18 @@ def send_telegram(text: str, session: requests.Session):
 with requests.Session() as session:
     session.headers.update({"User-Agent": "Mozilla/5.0"})
     
-    while True:
-        r = session.get(URL, timeout=10)
-        rank, point = get_stats(r.text)
-        
-        now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-        msg = f"gulianzaha as of {now_str} is rank {rank} with {point} points."
-        
-        print(msg)
-        send_telegram(msg, session)
+    for _ in range(6):
+        try:
+            r = session.get(URL, timeout=10)
+            if r.status_code == 200:
+                rank, point = get_stats(r.text)
+                now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
+                msg = f"gulinazha as of {now_str} is rank {rank} with {point} points."
+                print(msg)
+                send_telegram(msg, session)
+            else:
+                print(f"Error: Status code {r.status_code}")
+        except Exception as e:
+            print(f"Request failed: {e}")
         
         time.sleep(600)
