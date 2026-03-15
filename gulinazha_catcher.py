@@ -1,11 +1,12 @@
 import os
 import re
 import time
+import codecs
 import requests
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-URL = "https://open.kattis.com/users/gulinazha"
+URL = codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/thyvanmun", "rot13")
 SGT = ZoneInfo("Asia/Singapore")
 
 TOKEN = os.environ["TOKEN"]
