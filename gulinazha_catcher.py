@@ -12,9 +12,7 @@ SGT = ZoneInfo("Asia/Singapore")
 TOKEN = os.environ["TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
-# Precise patterns based on Kattis user profile structure
-# Rank: <span class="important">Rank: 1234</span>
-# Score: <span class="important">Score: 1234.5</span>
+# Precise patterns for Kattis profile sidebar: <span class="important">Rank: 1,234</span>
 RANK_PATTERN = re.compile(r'Rank:\s*([\d,]+)', re.IGNORECASE)
 SCORE_PATTERN = re.compile(r'Score:\s*([\d.]+)', re.IGNORECASE)
 
@@ -34,6 +32,7 @@ def send_telegram(text: str, session: requests.Session):
 
 with requests.Session() as session:
     session.headers.update({"User-Agent": "Mozilla/5.0"})
+    start_time = time.time()
     
     for _ in range(6):
         try:
@@ -45,8 +44,8 @@ with requests.Session() as session:
                 print(msg)
                 send_telegram(msg, session)
             else:
-                print(f"Error: Status code {r.status_code}")
+                print(f"Error {r.status_code} at {datetime.now(SGT)}")
         except Exception as e:
-            print(f"Request failed: {e}")
-        
+            print(f"Loop error: {e}")
+            
         time.sleep(600)
