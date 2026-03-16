@@ -26,7 +26,6 @@ def send_telegram(text: str, session: requests.Session):
     session.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
         data={"chat_id": CHAT_ID, "text": text},
-        timeout=10,
     )
 
 with requests.Session() as session:
