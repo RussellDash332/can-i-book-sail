@@ -33,17 +33,19 @@ with requests.Session() as session:
     start_time = time.time()
     
     for _ in range(6):
-        try:
-            r = session.get(URL)
-            if r.status_code == 200:
-                rank, point = get_stats(r.text)
-                now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-                msg = f"gulinazha as of {now_str} is rank {rank} with {point} points."
-                print(msg)
-                send_telegram(msg, session)
-            else:
-                print(f"Error {r.status_code}")
-        except Exception as e:
-            print(f"Error: {e}")
+        while True:
+            try:
+                r = session.get(URL)
+                if r.status_code == 200:
+                    rank, point = get_stats(r.text)
+                    now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
+                    msg = f"gulinazha as of {now_str} is rank {rank} with {point} points."
+                    print(msg)
+                    send_telegram(msg, session)
+                    break
+                else:
+                    print(f"Retrying due to status code {r.status_code}")
+            except Exception as e:
+                print(f"Retrying due to {type(e)}: {e}")
             
         time.sleep(600)
