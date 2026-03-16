@@ -35,7 +35,7 @@ with requests.Session() as session:
     
     for _ in range(6):
         try:
-            r = session.get(URL, timeout=10)
+            r = session.get(URL)
             if r.status_code == 200:
                 rank, point = get_stats(r.text)
                 now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
