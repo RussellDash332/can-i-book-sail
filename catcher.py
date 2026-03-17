@@ -6,7 +6,6 @@ import requests
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-URL = codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/thyvanmun", "rot13")
 SGT = ZoneInfo("Asia/Singapore")
 
 TOKEN = os.environ["TOKEN"]
@@ -31,21 +30,22 @@ def send_telegram(text: str, session: requests.Session):
 with requests.Session() as session:
     session.headers.update({"User-Agent": "Mozilla/5.0"})
     start_time = time.time()
-    
+
     for _ in range(6):
-        while True:
-            try:
-                r = session.get(URL)
-                if r.status_code == 200:
-                    rank, point = get_stats(r.text)
-                    now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-                    msg = f"gulinazha as of {now_str} is rank {rank} with {point} points."
-                    print(msg)
-                    send_telegram(msg, session)
-                    break
-                else:
-                    print(f"Retrying due to status code {r.status_code}")
-            except Exception as e:
-                print(f"Retrying due to {type(e)}: {e}")
+        for URL in [codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/thyvanmun", "rot13"), codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/cnbcnbzngr", "rot13")]:
+            while True:
+                try:
+                    r = session.get(URL)
+                    if r.status_code == 200:
+                        rank, point = get_stats(r.text)
+                        now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
+                        msg = f"{URL.split()[-1] as of {now_str} is rank {rank} with {point} points."
+                        print(msg)
+                        send_telegram(msg, session)
+                        break
+                    else:
+                        print(f"Retrying due to status code {r.status_code}")
+                except Exception as e:
+                    print(f"Retrying due to {type(e)}: {e}")
             
         time.sleep(600)
