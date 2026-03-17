@@ -23,4 +23,4 @@ jobs:
         env:
           TOKEN: ${{ secrets.TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-        run: python gulinazha_catcher.py
+        run: python catcher.py
