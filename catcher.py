@@ -39,7 +39,7 @@ with requests.Session() as session:
                     if r.status_code == 200:
                         rank, point = get_stats(r.text)
                         now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-                        msg = f"{URL.split()[-1]} as of {now_str} is rank {rank} with {point} points."
+                        msg = f"{URL.split('/')[-1]} as of {now_str} is rank {rank} with {point} points."
                         print(msg)
                         send_telegram(msg, session)
                         break
