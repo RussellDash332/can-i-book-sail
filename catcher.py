@@ -31,7 +31,7 @@ with requests.Session() as session:
     session.headers.update({"User-Agent": "Mozilla/5.0"})
     start_time = time.time()
 
-    for _ in range(6):
+    for _ in range(3):
         for URL in [codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/thyvanmun", "rot13"), codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/cnbcnbzngr", "rot13")]:
             while True:
                 try:
@@ -48,4 +48,4 @@ with requests.Session() as session:
                 except Exception as e:
                     print(f"Retrying due to {type(e)}: {e}")
             
-        time.sleep(600)
+        time.sleep(1200)
