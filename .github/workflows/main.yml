@@ -3,7 +3,7 @@ name: Ping
 on:
   schedule:
     # 22:20 Singapore time (UTC+8) = 14:20 UTC
-    - cron: "20 14 * * *"
+    #- cron: "20 14 * * *"
   workflow_dispatch:
 
   push:
