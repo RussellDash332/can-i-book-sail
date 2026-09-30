@@ -32,7 +32,7 @@ with requests.Session() as session:
     start_time = time.time()
 
     for _ in range(3):
-        for URL in [codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/thyvanmun", "rot13"), codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/cnbcnbzngr", "rot13")]:
+        for URL in [codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/kvnbjhp1", "rot13"), codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/ngyv-snaane-senaxyva", "rot13"), codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/znvfr-fgreyvat", "rot13")]:
             while True:
                 try:
                     r = session.get(URL)
