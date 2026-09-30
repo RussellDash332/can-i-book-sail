@@ -11,8 +11,8 @@ SGT = ZoneInfo("Asia/Singapore")
 TOKEN = os.environ["TOKEN"]
 CHAT_ID = os.environ["CHAT_ID"]
 
-RANK_PATTERN = re.compile(r'Rank</span><span class="important_text">([\d,]+)</span>')
-SCORE_PATTERN = re.compile(r'Score</span><span class="important_text">([\d.]+)</span>')
+RANK_PATTERN = re.compile(r'Rank</span>[\n\s]*<span class="important_text">([\d,]+)</span>')
+SCORE_PATTERN = re.compile(r'Score</span>[\n\s]*<span class="important_text">([\d.]+)</span>')
 
 def get_stats(html: str):
     rank_m = RANK_PATTERN.search(html)
