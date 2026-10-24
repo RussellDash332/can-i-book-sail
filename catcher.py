@@ -35,7 +35,11 @@ with requests.Session() as session:
         urls = [
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/kvnbjhp1", "rot13"),
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/ngyv-snaane-senaxyva", "rot13"),
-            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/znvfr-fgreyvat", "rot13")
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/znvfr-fgreyvat", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/fcbbxljbbxl", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/puhat-lna-pubj", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/yi0flf", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/uenag-ubiunaavflna", "rot13"),
         ]
         stats = []
         for URL in urls:
