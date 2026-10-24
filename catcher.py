@@ -40,7 +40,6 @@ with requests.Session() as session:
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/puhat-lna-pubj", "rot13"),
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/yi0flf", "rot13"),
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/uenag-ubiunaavflna", "rot13"),
-            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/ehffryyfnrenat27", "rot13"),
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/wrerzl-yvz", "rot13"),
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/whfgfbzrobql", "rot13"),
         ]
