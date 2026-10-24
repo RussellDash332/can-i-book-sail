@@ -17,14 +17,14 @@ SCORE_PATTERN = re.compile(r'Score</span>[\n\s]*<span class="important_text">([\
 def get_stats(html: str):
     rank_m = RANK_PATTERN.search(html)
     score_m = SCORE_PATTERN.search(html)
-    rank = rank_m.group(1) if rank_m else "Unknown"
-    point = score_m.group(1) if score_m else "Unknown"
+    rank = rank_m.group(1) if rank_m else "??"
+    point = score_m.group(1) if score_m else "??"
     return rank, point
 
 def send_telegram(text: str, session: requests.Session):
     session.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-        data={"chat_id": CHAT_ID, "text": text},
+        data={"chat_id": CHAT_ID, "text": text, "parse_mode": "HTML"},
     )
 
 with requests.Session() as session:
@@ -55,8 +55,8 @@ with requests.Session() as session:
         stats.sort(key=lambda x: int(x[1].replace(',', '')) if x[1].replace(',', '').isdigit() else float('inf'))
 
         now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-        msg_lines = [f"{name}, rank = {rank}, score = {point}" for name, rank, point in stats]
-        msg = "\n".join(msg_lines) + f"\n\nTime: {now_str}"
+        msg_lines = [f"<b>{name}<b>\nrank = {rank}, score = {point}\n" for name, rank, point in stats]
+        msg = "\n".join(msg_lines) + f"\nLast Updated: {now_str}"
 
         print(msg)
         send_telegram(msg, session)
