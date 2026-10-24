@@ -40,6 +40,9 @@ with requests.Session() as session:
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/puhat-lna-pubj", "rot13"),
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/yi0flf", "rot13"),
             codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/uenag-ubiunaavflna", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/ehffryyfnrenat27", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/wrerzl-yvz", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/whfgfbzrobql", "rot13"),
         ]
         stats = []
         for URL in urls:
@@ -59,8 +62,8 @@ with requests.Session() as session:
         stats.sort(key=lambda x: int(x[1].replace(',', '')) if x[1].replace(',', '').isdigit() else float('inf'))
 
         now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-        msg_lines = [f"[*{name}*]({URL})\nrank = {rank}, score = {point}\n" for name, rank, point in stats]
-        msg = "\n".join(msg_lines) + f"\nLast Updated: {now_str}"
+        msg_lines = [f"*[{name}]({URL})*\nrank = {rank}, score = {point}\n" for name, rank, point in stats]
+        msg = "\n".join(msg_lines) + f"\n*Last Updated: {now_str}*"
 
         print(msg)
         send_telegram(msg, session)
