@@ -32,20 +32,33 @@ with requests.Session() as session:
     start_time = time.time()
 
     for _ in range(3):
-        for URL in [codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/kvnbjhp1", "rot13"), codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/ngyv-snaane-senaxyva", "rot13"), codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/znvfr-fgreyvat", "rot13")]:
+        urls = [
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/kvnbjhp1", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/ngyv-snaane-senaxyva", "rot13"),
+            codecs.decode("uggcf://bcra.xnggvf.pbz/hfref/znvfr-fgreyvat", "rot13")
+        ]
+        stats = []
+        for URL in urls:
             while True:
                 try:
                     r = session.get(URL)
                     if r.status_code == 200:
                         rank, point = get_stats(r.text)
-                        now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-                        msg = f"{URL.split('/')[-1]}\nTime: {now_str}\nRank: {rank}\nScore: {point}"
-                        print(msg)
-                        send_telegram(msg, session)
+                        name = URL.split('/')[-1]
+                        stats.append((name, rank, point))
                         break
                     else:
                         print(f"Retrying due to status code {r.status_code}")
                 except Exception as e:
                     print(f"Retrying due to {type(e)}: {e}")
-            
-        time.sleep(1200) # cadence
+
+        stats.sort(key=lambda x: int(x[1].replace(',', '')) if x[1].replace(',', '').isdigit() else float('inf'))
+
+        now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
+        msg_lines = [f"{name}, rank = {rank}, score = {point}" for name, rank, point in stats]
+        msg = "\n".join(msg_lines) + f"\n\nTime: {now_str}"
+
+        print(msg)
+        send_telegram(msg, session)
+
+        time.sleep(1200)
