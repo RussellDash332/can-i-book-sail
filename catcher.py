@@ -51,17 +51,17 @@ with requests.Session() as session:
                     if r.status_code == 200:
                         rank, point = get_stats(r.text)
                         name = URL.split('/')[-1]
-                        stats.append((name, rank, point))
+                        stats.append((name, URL, rank, point))
                         break
                     else:
                         print(f"Retrying due to status code {r.status_code}")
                 except Exception as e:
                     print(f"Retrying due to {type(e)}: {e}")
 
-        stats.sort(key=lambda x: int(x[1].replace(',', '')) if x[1].replace(',', '').isdigit() else float('inf'))
+        stats.sort(key=lambda x: int(x[2].replace(',', '')) if x[2].replace(',', '').isdigit() else float('inf'))
 
         now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-        msg_lines = [f"*[{name}]({URL})*\nrank = {rank}, score = {point}\n" for name, rank, point in stats]
+        msg_lines = [f"*{name}*\nrank = {rank}, score = {point}\n" for name, url, rank, point in stats]
         msg = "\n".join(msg_lines) + f"\n*Last Updated: {now_str}*"
 
         print(msg)
