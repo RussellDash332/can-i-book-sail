@@ -61,8 +61,8 @@ with requests.Session() as session:
         stats.sort(key=lambda x: int(x[2].replace(',', '')) if x[2].replace(',', '').isdigit() else float('inf'))
 
         now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-        msg_lines = [f"*{name}*\nrank = {rank}, score = {point}\n" for name, url, rank, point in stats]
-        msg = "\n".join(msg_lines) + f"\n*Last Updated: {now_str}*"
+        msg_lines = [f"*{name}*\nrank = {rank}, score = {point}" for name, url, rank, point in stats]
+        msg = "\n".join(msg_lines) + f"\n\n*Last Updated: {now_str}*"
 
         print(msg)
         send_telegram(msg, session)
