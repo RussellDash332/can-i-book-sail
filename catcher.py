@@ -24,7 +24,7 @@ def get_stats(html: str):
 def send_telegram(text: str, session: requests.Session):
     session.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-        data={"chat_id": CHAT_ID, "text": text},
+        data={"chat_id": CHAT_ID, "text": text, "parse_mode": "Markdown"},
     )
 
 with requests.Session() as session:
@@ -59,7 +59,7 @@ with requests.Session() as session:
         stats.sort(key=lambda x: int(x[1].replace(',', '')) if x[1].replace(',', '').isdigit() else float('inf'))
 
         now_str = datetime.now(SGT).strftime("%Y-%m-%d %H:%M:%S")
-        msg_lines = [f"<b>{name}<b>\nrank = {rank}, score = {point}\n" for name, rank, point in stats]
+        msg_lines = [f"[*{name}*]({URL})\nrank = {rank}, score = {point}\n" for name, rank, point in stats]
         msg = "\n".join(msg_lines) + f"\nLast Updated: {now_str}"
 
         print(msg)
