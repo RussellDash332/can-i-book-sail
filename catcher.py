@@ -24,7 +24,7 @@ def get_stats(html: str):
 def send_telegram(text: str, session: requests.Session):
     session.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-        data={"chat_id": CHAT_ID, "text": text, "parse_mode": "HTML"},
+        data={"chat_id": CHAT_ID, "text": text},
     )
 
 with requests.Session() as session:
