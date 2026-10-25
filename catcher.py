@@ -65,6 +65,7 @@ with requests.Session() as session:
         msg = "\n".join(msg_lines) + f"\n\n*Last Updated: {now_str}*"
 
         print(msg)
-        send_telegram(msg, session)
+        try: send_telegram(msg, session)
+        except: pass
 
         time.sleep(1200)
